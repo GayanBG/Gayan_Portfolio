@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Captions - Brand Kit</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Google Font (Inter) --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- Custom Styles --- */
+        html, body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Dark Slate Blue */
+        }
+
+        /* Full-screen container */
+        .slide-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Allows scrolling */
+            width: 100vw;
+            color: #E2E8F0; /* Slate 200 */
+            /* AI grid background */
+            background:
+                linear-gradient(0deg, rgba(0, 191, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 191, 255, 0.07) 1px, transparent 1px),
+                radial-gradient(circle at 90% 10%, rgba(0, 191, 255, 0.2) 0%, rgba(0, 191, 255, 0) 30%),
+                radial-gradient(circle at 10% 90%, rgba(138, 43, 226, 0.15) 0%, rgba(138, 43, 226, 0) 30%),
+                #0f172a;
+            background-size: 30px 30px, 30px 30px, 100% 100%, 100% 100%, 100% 100%;
+            position: relative; /* Needed for z-index on motes container */
+        }
+        
+        /* --- Flying Dots Animation --- */
+        .dots-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1; /* Behind content, above background grid */
+        }
+
+        .dot {
+            position: absolute;
+            background: rgba(0, 191, 255, 0.3); /* Cyan color */
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: fly-dots 10s linear infinite;
+            opacity: 0;
+            will-change: transform, opacity;
+            bottom: -20px; /* Start from below the screen */
+        }
+
+        /* Create 10 dots */
+        .dot:nth-child(1) { width: 10px; height: 10px; left: 10%; animation-duration: 12s; animation-delay: 0s; }
+        .dot:nth-child(2) { width: 5px; height: 5px; left: 20%; animation-duration: 15s; animation-delay: -2s; background: rgba(138, 43, 226, 0.3); } /* Purple */
+        .dot:nth-child(3) { width: 8px; height: 8px; left: 30%; animation-duration: 10s; animation-delay: -5s; }
+        .dot:nth-child(4) { width: 12px; height: 12px; left: 40%; animation-duration: 18s; animation-delay: -3s; }
+        .dot:nth-child(5) { width: 6px; height: 6px; left: 50%; animation-duration: 13s; animation-delay: -7s; background: rgba(138, 43, 226, 0.3); } /* Purple */
+        .dot:nth-child(6) { width: 10px; height: 10px; left: 60%; animation-duration: 11s; animation-delay: -4s; }
+        .dot:nth-child(7) { width: 7px; height: 7px; left: 70%; animation-duration: 14s; animation-delay: -1s; }
+        .dot:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-duration: 16s; animation-delay: -6s; background: rgba(138, 43, 226, 0.3); } /* Purple */
+        .dot:nth-child(9) { width: 9px; height: 9px; left: 90%; animation-duration: 12s; animation-delay: -8s; }
+        .dot:nth-child(10) { width: 6px; height: 6px; left: 100%; animation-duration: 17s; animation-delay: -9s; }
+
+        @keyframes fly-dots {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; } /* Start from bottom (relative to parent) */
+            10%, 90% { opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; } /* Fly up past the top */
+        }
+
+
+        /* --- Element Load-in Animations --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header styling */
+        .header {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.5); /* slate-900 at 50% */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1e293b; /* Slate 800 */
+            z-index: 50;
+            opacity: 0; /* Start hidden */
+            animation: slideDown 0.8s ease-out 0.1s forwards;
+            will-change: transform, opacity;
+            position: relative; /* Ensure z-index works */
+        }
+
+        /* Main content area (takes up remaining space) */
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0; /* Start hidden */
+            animation: popIn 1s ease-out 0.4s forwards;
+            will-change: transform, opacity;
+            position: relative; /* Ensure z-index works */
+            z-index: 10; /* Above motes */
+        }
+
+        /* Glassmorphism card for content pages */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6); /* slate-900 at 60% opacity */
+            backdrop-filter: blur(12px);
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 1.25rem; /* rounded-2xl */
+            padding: 2.5rem; /* p-10 */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 64rem; /* max-w-6xl */
+            margin: 2rem 0; /* Add margin for scrolling */
+        }
+        
+        /* Navigation Links (as "Pages") */
+        .page-nav-link {
+            background-color: #1e293b; /* Slate 800 */
+            color: #cbd5e1; /* Slate 300 */
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem; /* rounded-md */
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #334155; /* Slate 700 */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* To make it a block-like element */
+        }
+        .page-nav-link:hover {
+            background-color: #334155; /* Slate 700 */
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.1);
+        }
+
+        /* Footer styling */
+        .footer {
+            width: 100%;
+            padding: 1rem;
+            z-index: 50;
+            background-color: #0f172a; /* Match bg */
+            border-top: 1px solid #1e293b; /* Slate 800 */
+            opacity: 0; /* Start hidden */
+            animation: slideUp 0.8s ease-out 0.1s forwards;
+            will-change: transform, opacity;
+            position: relative; /* Ensure z-index works */
+        }
+
+        /* Footer Icon Styling */
+        .footer-icon {
+            color: #94a3b8; /* slate-400 */
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .footer-icon:hover {
+            color: #00BFFF; /* cyan-400 */
+            transform: scale(1.1);
+        }
+
+        /* Caption Card Styling */
+        .caption-card {
+            background: #1e293b; /* Slate 800 */
+            border: 1px solid #334155; /* Slate 700 */
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        .caption-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 191, 255, 0.1);
+            border-color: #00BFFF;
+        }
+        .caption-text {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            color: #e2e8f0; /* slate-200 */
+            line-height: 1.6;
+        }
+        .caption-hashtags {
+            font-size: 0.875rem; /* text-sm */
+            color: #00BFFF; /* cyan-400 */
+            margin-top: 1rem;
+            word-break: break-all;
+        }
+
+    </style>
+</head>
+<body class="bg-slate-900">
+
+    <div class="slide-container">
+        
+        <!-- --- Flying Dots Background --- -->
+        <div class="dots-container">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- --- Header --- -->
+        <header class="header">
+            <nav class="container mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
+                <!-- Logo --><a href="index.html" class="text-xl font-bold text-white tracking-wide">
+                    Ai <span class="text-cyan-400">Boot Camp</span> Ai <span class="text-purple-400">Cloud</span>
+                </a>
+                
+                <!-- Presenter Info (Top Right) --><div>
+                    <div class="text-white font-bold text-right">BG.Gayan</div>
+                    <div class="text-cyan-400 text-sm text-right">University of Jaffna</div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- --- Main Content (Fills the space) --- -->
+        <main class="main-content">
+            
+            <!-- Central Content Card -->
+            <div class="glass-card opacity-0" style="animation: fadeInUp 0.5s ease-out 0.8s forwards;">
+                
+                <!-- Back Button -->
+                <div class="w-full text-left mb-6"> <!-- Wrapper to keep button left -->
+                    <a href="Home.html" class="page-nav-link">
+                        &larr; Back to Home
+                    </a>
+                </div>
+                
+                <!-- Title -->
+                <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-6 text-center">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                        Social Media Captions
+                    </span>
+                </h1>
+                <p class="text-slate-300 text-xl mb-10 -mt-2 text-center">Deliverable for <span class="font-bold text-white">Northern Threads</span></p>
+
+
+                <!-- Section 1: The Captions -->
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center justify-center">
+                        <!-- Chat Icon -->
+                        <svg class="w-8 h-8 mr-3 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25a9.065 9.065 0 0 1-5.625-1.742l-4.125 2.13a.75.75 0 0 1-.963-.962l2.13-4.125A9.065 9.065 0 0 1 2.25 12c0-4.556 3.86-8.25 8.625-8.25S21 7.444 21 12Z" />
+                        </svg>
+                        Sample Social Media Captions
+                    </h2>
+                    <p class="text-slate-400 mb-8 max-w-3xl text-center mx-auto">A selection of creative and engaging captions ready for social media, complete with emojis and hashtags.</p>
+                    
+                    <!-- Captions Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <!-- Caption 1 -->
+                        <div class="caption-card">
+                            <div>
+                                <p class="caption-text">Your story deserves a shirt. Let’s print it 💥</p>
+                            </div>
+                            <p class="caption-hashtags">#NorthernThreads #CustomTshirts #WearYourStory #SriLankaStyle</p>
+                        </div>
+                        <!-- Caption 2 -->
+                        <div class="caption-card">
+                            <div>
+                                <p class="caption-text">From idea 💡 to tee 👕 — we make it happen!</p>
+                                <p class="text-slate-300 mt-2">DM us to design your own today! ✨</p>
+                            </div>
+                            <p class="caption-hashtags">#NorthernThreads #CustomDesigns #SriLankaStyle</p>
+                        </div>
+                        <!-- Caption 3 -->
+                        <div class="caption-card">
+                            <div>
+                                <p class="caption-text">Jaffna vibes, global style 🌍💫</p>
+                                <p class="text-slate-300 mt-2">Custom T-shirts that speak YOU!</p>
+                            </div>
+                            <p class="caption-hashtags">#NorthernThreads #CustomTshirts #WearYourStory</p>
+                        </div>
+                        <!-- Caption 4 -->
+                        <div class="caption-card">
+                            <div>
+                                <p class="caption-text">Your squad, your style, your tee 🔥</p>
+                                <p class="text-slate-300 mt-2">Perfect for clubs, events & schools — order now!</p>
+                            </div>
+                            <p class="caption-hashtags">#NorthernThreads #TeamSpirit #SriLankaStyle</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="my-12 border-slate-700">
+
+                <!-- Section 2: AI Screenshot -->
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center justify-center">
+                        <!-- Screenshot Icon -->
+                        <svg class="w-8 h-8 mr-3 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.04l-.821 1.316z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                        </svg>
+                        Screenshot of Chat GPT
+                    </h2>
+                    <p class="text-slate-400 mb-6 max-w-3xl text-center mx-auto">A screenshot of the AI tool's interface (e.g., ChatGPT) generating the captions.</p>
+                    
+                    <div class="bg-slate-800 rounded-lg p-6 shadow-lg border border-slate-700 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10">
+                        <img src="caption.jpg" alt="Screenshot of AI generation" class="mx-auto rounded" onerror="this.src='https://placehold.co/800x450/0f172a/607d8b?text=AI+Screenshot'">
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="my-12 border-slate-700">
+
+                <!-- Section 3: The Prompt -->
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center justify-center">
+                        <!-- Text/Document Icon -->
+                        <svg class="w-8 h-8 mr-3 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625a1.875 1.875 0 0 0-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V11.25a1.875 1.875 0 0 0-1.875-1.875v-1.5A1.875 1.875 0 0 0 16.5 6h-1.5m0 0H8.25m2.25 0v.003" />
+                        </svg>
+                        ChatGPT Prompt
+                    </h2>
+                    <p class="text-slate-400 mb-6 max-w-3xl text-center mx-auto">This is the detailed prompt used to guide the AI in generating the captions.</p>
+                    
+                    <div class="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-1 rounded-2xl shadow-lg">
+                        <blockquote class="bg-slate-800 p-6 md:p-8 rounded-xl">
+                            <p class="text-slate-300 italic leading-relaxed text-lg text-left"> <!-- Keep prompt text left-aligned -->
+                                "Generate 10 creative and engaging social media captions for Northern Threads, a custom T-shirt printing shop based in Jaffna, Sri Lanka.
+                                <br><br>
+                                The captions should be written in a friendly, youthful, and energetic tone, appealing to students, youth clubs, schools, and event organizers.
+                                <br><br>
+                                Instructions:
+                                <br>
+                                Keep each caption short (1–3 lines).
+                                <br>
+                                Include a call-to-action (e.g., “Order yours today!”, “DM us to design your own!”).
+                                <br>
+                                Add trending emojis and relevant hashtags (#NorthernThreads #CustomTshirts #SriLankaStyle #WearYourStory).
+                                <br>
+                                Highlight the brand’s creativity, local pride, and customization service.
+                                <br>
+                                Mix caption styles:
+                                <br>
+                                Some promotional
+                                <br>
+                                Some fun/relatable
+                                <br>
+                                Some motivational or community-based
+                                <br><br>
+                                Example ideas (for inspiration only):
+                                <br>
+                                “Your story deserves a shirt. Let’s print it 💥 #WearYourStory”
+                                <br>
+                                “From Jaffna to the world — custom tees that speak YOU 🇱🇰✨”
+                                <br>
+                                “Team spirit starts with a T-shirt 👕🔥 #NorthernThreads”"
+                            </p>
+                        </blockquote>
+                    </div>
+                </div>
+
+            </div> <!-- end glass-card -->
+            
+        </main>
+
+        <!-- --- Footer (Stays at the bottom) --- -->
+        <footer class="footer">
+            <div class="container mx-auto max-w-7xl px-6 flex justify-between items-center">
+                <!-- Copyright --><p class="text-xs text-gray-500">
+                    &copy; 2024 BG Gayan. All rights reserved.
+                </p>
+                <!-- Social Icons --><div class="flex justify-center gap-4">
+                    <!-- WhatsApp --><a href="https://wa.me/94762724950" target="_blank" class="footer-icon">
+                        <span class="sr-only">WhatsApp</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.06 21.94L7.31 20.58C8.76 21.39 10.37 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2ZM12.04 20.13C10.52 20.13 9.04 19.7 7.79 18.9L7.4 18.66L3.92 19.58L4.87 16.2L4.62 15.79C3.81 14.47 3.4 12.98 3.4 11.41C3.4 7.32 7.33 3.7 12.04 3.7C16.75 3.7 20.68 7.32 20.68 11.91C20.68 16.5 16.75 20.13 12.04 20.13ZM17.48 14.53C17.2 14.4 16.03 13.84 15.78 13.74C15.53 13.64 15.35 13.59 15.17 13.89C14.99 14.19 14.5 14.7 14.33 14.87C14.15 15.04 13.97 15.06 13.7 14.93C13.43 14.8 12.61 14.53 11.64 13.66C10.88 12.97 10.39 12.18 10.26 11.93C10.13 11.68 10.24 11.56 10.36 11.44C10.47 11.33 10.6 11.16 10.73 11C10.86 10.84 10.91 10.71 11.01 10.51C11.11 10.31 11.06 10.14 10.99 10C10.92 9.86 10.45 8.7 10.25 8.2C1When0.05 7.7 9.85 7.75 9.7 7.74C9.55 7.73 9.37 7.73 9.19 7.73C9.01 7.73 8.76 7.78 8.53 8.03C8.3 8.28 7.8 8.73 7.8 9.73C7.8 10.73 8.56 11.68 8.68 11.85C8.8 12.02 10.45 14.5 12.9 15.49C13.51 15.77 14.01 15.93 14.41 16.03C14.93 16.16 15.42 16.13 15.81 16.05C16.24 15.96 17.2 15.4 17.43 14.8C17.66 14.2 17.66 13.7 17.58 13.59C17.51 13.48 17.36 13.43 17.2 13.3Z"/></svg>
+                    </a>
+                    <!-- Gmail --><a href="mailto:gayangayan474@gmail.com" class="footer-icon">
+                        <span class="sr-only">Gmail</span>
+                        <svg classs="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z"/></svg>
+                    </a>
+                    <!-- LinkedIn --><a href="#" class="footer-icon">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0H5C2.24 0 0 2.24 0 5V19C0 21.76 2.24 24 5 24H19C21.76 24 24 21.76 24 19V5C24 2.24 21.76 0 19 0ZM8 19H5V8H8V19ZM6.5 6.5C5.12 6.5 4 5.38 4 4C4 2.62 5.12 1.5 6.5 1.5C7.88 1.5 9 2.62 9 4C9 5.38 7.88 6.5 6.5 6.5ZM20 19H17V13.37C17 10.32 16.08 8.82 14.03 8.82C12.19 8.82 11.2 9.92 10.82 10.97C10.68 11.34 10.66 11.82 10.66 12.3V19H7.66V8H10.5V9.4C10.97 8.69 11.94 7.9 13.61 7.9C16.89 7.9 18.02 10.02 18.02 12.91L17.98 13.02L18 13.02V19H20V19Z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
