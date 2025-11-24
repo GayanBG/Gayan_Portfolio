@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate and Agriculture of Sri Lanka - Group 05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85); /* Increased opacity for contrast */
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --card-height: auto; 
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Typography */
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+
+        /* Satellite/Terrain Map Effect */
+        .map-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vh;
+            height: auto;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6; /* Slightly darker for visibility */
+            filter: drop-shadow(0px 30px 30px rgba(0, 0, 0, 0.1));
+            animation: floatMap 8s ease-in-out infinite;
+        }
+
+        @keyframes floatMap {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+            margin-bottom: 4rem;
+        }
+
+        .grid-item {
+            flex: 0 0 380px;
+            min-width: 320px;
+            max-width: 400px;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        /* Card Accents & Icons */
+        .card-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+        .glass-card:hover .card-icon { transform: scale(1.1) rotate(5deg); }
+
+        .glass-card.green .card-icon { background: #dcfce7; color: #15803d; }
+        .glass-card.blue .card-icon { background: #dbeafe; color: #1e40af; }
+        .glass-card.cyan .card-icon { background: #cffafe; color: #0e7490; }
+        .glass-card.orange .card-icon { background: #ffedd5; color: #c2410c; }
+        .glass-card.emerald .card-icon { background: #ecfccb; color: #3f6212; }
+
+        /* Menu Number */
+        .menu-num {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(0,0,0,0.05);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Clickable Menu Items */
+        .menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            border-radius: 0.5rem;
+            transition: background 0.2s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .menu-link:hover {
+            background: rgba(0,0,0,0.03);
+            border-left-color: currentColor;
+        }
+        
+        .glass-card.green .menu-link:hover { border-left-color: #15803d; }
+        .glass-card.blue .menu-link:hover { border-left-color: #1e40af; }
+        .glass-card.cyan .menu-link:hover { border-left-color: #0e7490; }
+        .glass-card.orange .menu-link:hover { border-left-color: #c2410c; }
+        .glass-card.emerald .menu-link:hover { border-left-color: #3f6212; }
+
+        /* Animations */
+        .fly-in { opacity: 0; animation: flyIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transform: translateY(30px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        @keyframes flyIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Marquee */
+        .marquee-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 20;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    </style>
+</head>
+<body class="selection:bg-slate-300 selection:text-slate-900">
+
+    <!-- Background Map -->
+    <svg class="map-container" viewBox="0 0 458 877" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="satelliteTexture" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" result="noise" />
+                <feDiffuseLighting in="noise" lighting-color="#ffffff" surfaceScale="2">
+                    <feDistantLight azimuth="45" elevation="60" />
+                </feDiffuseLighting>
+                <feComposite operator="in" in2="SourceGraphic" />
+            </filter>
+        </defs>
+        <path filter="url(#satelliteTexture)" fill="#64748b" opacity="0.2" d="M225.5,0.5 C240.5,10.5 250.5,20.5 255.5,35.5 C260.5,50.5 255.5,60.5 250.5,70.5 C245.5,80.5 240.5,90.5 245.5,100.5 C250.5,110.5 260.5,115.5 270.5,120.5 C280.5,125.5 290.5,130.5 295.5,140.5 C300.5,150.5 305.5,160.5 300.5,170.5 C295.5,180.5 290.5,190.5 295.5,200.5 C300.5,210.5 310.5,215.5 320.5,220.5 C330.5,225.5 340.5,230.5 345.5,240.5 C350.5,250.5 355.5,260.5 360.5,270.5 C365.5,280.5 370.5,290.5 365.5,300.5 C360.5,310.5 355.5,320.5 350.5,330.5 C345.5,340.5 340.5,350.5 345.5,360.5 C350.5,370.5 360.5,380.5 370.5,390.5 C380.5,400.5 390.5,410.5 395.5,420.5 C400.5,430.5 405.5,440.5 400.5,450.5 C395.5,460.5 390.5,470.5 385.5,480.5 C380.5,490.5 375.5,500.5 370.5,510.5 C365.5,520.5 360.5,530.5 355.5,540.5 C350.5,550.5 345.5,560.5 340.5,570.5 C335.5,580.5 330.5,590.5 325.5,600.5 C320.5,610.5 315.5,620.5 310.5,630.5 C305.5,640.5 300.5,650.5 295.5,660.5 C290.5,670.5 285.5,680.5 280.5,690.5 C275.5,700.5 270.5,710.5 265.5,720.5 C260.5,730.5 255.5,740.5 250.5,750.5 C245.5,760.5 240.5,770.5 235.5,780.5 C230.5,790.5 225.5,800.5 220.5,810.5 C215.5,820.5 210.5,830.5 205.5,840.5 C200.5,850.5 195.5,860.5 190.5,865.5 C185.5,870.5 175.5,875.5 165.5,870.5 C155.5,865.5 145.5,860.5 140.5,850.5 C135.5,840.5 130.5,830.5 125.5,820.5 C120.5,810.5 115.5,800.5 110.5,790.5 C105.5,780.5 100.5,770.5 95.5,760.5 C90.5,750.5 85.5,740.5 80.5,730.5 C75.5,720.5 70.5,710.5 65.5,700.5 C60.5,690.5 55.5,680.5 50.5,670.5 C45.5,660.5 40.5,650.5 35.5,640.5 C30.5,630.5 25.5,620.5 20.5,610.5 C15.5,600.5 10.5,590.5 5.5,580.5 C0.5,570.5 -0.5,560.5 0.5,550.5 C1.5,540.5 5.5,530.5 10.5,520.5 C15.5,510.5 20.5,500.5 25.5,490.5 C30.5,480.5 35.5,470.5 40.5,460.5 C45.5,450.5 50.5,440.5 55.5,430.5 C60.5,420.5 65.5,410.5 70.5,400.5 C75.5,390.5 80.5,380.5 85.5,370.5 C90.5,360.5 95.5,350.5 100.5,340.5 C105.5,330.5 110.5,320.5 115.5,310.5 C120.5,300.5 125.5,290.5 130.5,280.5 C135.5,270.5 140.5,260.5 145.5,250.5 C150.5,240.5 155.5,230.5 160.5,220.5 C165.5,210.5 170.5,200.5 175.5,190.5 C180.5,180.5 185.5,170.5 190.5,160.5 C195.5,150.5 200.5,140.5 205.5,130.5 C210.5,120.5 215.5,110.5 220.5,100.5 C225.5,90.5 230.5,80.5 225.5,70.5 C220.5,60.5 215.5,50.5 210.5,40.5 C205.5,30.5 200.5,20.5 210.5,10.5 C215.5,5.5 220.5,0.5 225.5,0.5 Z" />
+    </svg>
+
+    <!-- Header -->
+    <header class="relative z-20 w-full p-6 flex justify-between items-start">
+        <div class="fly-in flex items-center gap-4">
+            <div class="relative">
+                <span class="text-5xl font-black text-slate-800 opacity-10 absolute -top-2 -left-3">05</span>
+                <div class="relative z-10 bg-slate-900 text-white px-6 py-2 rounded-tr-2xl rounded-bl-2xl shadow-xl flex items-center gap-3 border-l-4 border-green-500">
+                    <i class="fas fa-satellite-dish text-green-400"></i>
+                    <span class="font-bold text-lg tracking-widest tech-font">GROUP 05</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-right fly-in delay-100">
+            <div class="bg-white/80 backdrop-blur px-4 py-2 rounded-lg shadow-sm border border-slate-200">
+                <p class="text-xs font-extrabold text-slate-700 uppercase tracking-widest">Geography 2025</p>
+                <p class="text-[10px] text-slate-500 font-bold">Final Assignment</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center w-full px-4 py-8">
+        
+        <div class="text-center mb-12 fly-in delay-200">
+            <h1 class="text-5xl md:text-7xl font-bold mb-3 leading-tight text-slate-900 drop-shadow-sm">
+                <span class="block text-2xl md:text-3xl font-medium text-slate-600 mb-2 font-poppins">Geography of Sri Lanka</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-800 to-blue-800">
+                    Climate & Agriculture
+                </span>
+            </h1>
+            <div class="flex justify-center gap-2 mt-4 opacity-80">
+                <span class="w-12 h-1 bg-green-600 rounded-full"></span>
+                <span class="w-2 h-1 bg-blue-600 rounded-full"></span>
+                <span class="w-12 h-1 bg-green-600 rounded-full"></span>
+            </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="card-grid fly-in delay-300">
+
+            <!-- Card 1: Overview -->
+            <div class="grid-item">
+                <div class="glass-card green">
+                    <span class="menu-num">01</span>
+                    <div class="card-icon"><i class="fas fa-globe-asia"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Overview</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page1.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Srilanka Climate</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/497</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page2.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Srilanka Agriculture</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/441</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Zones -->
+            <div class="grid-item">
+                <div class="glass-card blue">
+                    <span class="menu-num">02</span>
+                    <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Zonal Analysis</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page8.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Major Climate Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/633</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='#'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Influence Factors</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2020/A/598</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Rainfall -->
+            <div class="grid-item">
+                <div class="glass-card cyan">
+                    <span class="menu-num">03</span>
+                    <div class="card-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Rainfall</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page4.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Rainfall Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/200</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page9.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Impact</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/007</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Temperature -->
+            <div class="grid-item">
+                <div class="glass-card orange">
+                    <span class="menu-num">04</span>
+                    <div class="card-icon"><i class="fas fa-temperature-high"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Temperature</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page5.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Temp. Distribution</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/183</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page5.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Impact</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/570</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Systems -->
+            <div class="grid-item">
+                <div class="glass-card emerald">
+                    <span class="menu-num">05</span>
+                    <div class="card-icon"><i class="fas fa-seedling"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Agri Systems</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page6.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/383</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page7.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Irrigation System</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/612</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full bg-white border-t border-slate-300">
+        <div class="marquee-container py-3">
+            <div class="marquee-content">
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-green-600"></i> Gayan 2021/A/497</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-blue-600"></i> Member Two 2021/A/441</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-cyan-600"></i> Member Three 2021/A/633</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-orange-600"></i> Member Four 2020/A/598</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-emerald-600"></i> Member Five 2021/A/200</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-purple-600"></i> Member Six 2021/A/007</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-pink-600"></i> Member Seven 2021/A/183</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-red-600"></i> Member Eight 2021/A/570</span>
+                <!-- Duplicate -->
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-green-600"></i> Gayan 2021/A/497</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-blue-600"></i> Member Two 2021/A/441</span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center px-8 py-5">
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Department</p>
+                <p class="font-bold text-slate-800">Geography</p>
+            </div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white shadow-lg">
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">University</p>
+                <p class="font-bold text-slate-800">Jaffna</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

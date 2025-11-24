@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Distribution - Group 05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600&family=Noto+Sans+Tamil:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
+            /* Warm Gradient: Orange to Sunny Yellow */
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fef3c7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+        .tamil-font { font-family: 'Noto Sans Tamil', sans-serif; }
+        .serif-font { font-family: 'Playfair Display', serif; }
+
+        /* Glass Container Styling */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-container:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 40px rgba(234, 88, 12, 0.15); /* Orange shadow */
+        }
+
+        /* Image Container & Animation */
+        .img-wrapper {
+            width: 100%;
+            max-width: 700px; /* UPDATED: Restrict width to prevent massive images */
+            margin-left: auto; /* Center the image */
+            margin-right: auto; /* Center the image */
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            margin-bottom: 2.5rem;
+            border: 4px solid white;
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 3s ease-in-out;
+        }
+
+        /* Zoom and Move Effect */
+        .img-wrapper:hover img {
+            transform: scale(1.15) translateY(-10px);
+        }
+
+        /* Overlay text on image */
+        .img-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .img-wrapper:hover .img-overlay { opacity: 1; }
+
+        /* Animations */
+        .fly-in-up { animation: flyInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(50px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        @keyframes flyInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom List */
+        .temp-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #431407; /* Dark Brown text */
+        }
+        .temp-list li::before {
+            content: '🌡️';
+            position: absolute;
+            left: 0;
+            color: #ea580c;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed; top: 2rem; left: 2rem; z-index: 50;
+            background: white; padding: 0.8rem 1.5rem; border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); font-weight: 600; color: #334155;
+            display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; text-decoration: none;
+        }
+        .back-btn:hover { transform: translateX(-5px); color: #ea580c; }
+
+    </style>
+</head>
+<body class="p-4 md:p-8 pb-20">
+
+    <a href="Pre.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Home
+    </a>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto pt-16">
+
+        <!-- HEADER -->
+        <header class="text-center mb-12 fly-in-up">
+            <div class="inline-block px-3 py-1 bg-orange-800 text-white text-xs font-bold rounded tech-font mb-3">GROUP 05</div>
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-800 serif-font mb-2">Temperature Distribution</h1>
+            <div class="h-1 w-32 bg-orange-500 mx-auto rounded-full"></div>
+            <div class="flex justify-center gap-4 mt-4">
+                <p class="text-orange-700 font-bold tracking-widest text-sm uppercase">இலங்கையின் வெப்பநிலை பகிர்வு</p>
+                <span class="text-slate-400">|</span>
+                <p class="text-slate-500 font-mono text-sm font-bold">2021/A/183</p>
+            </div>
+        </header>
+
+        <!-- CONTAINER 1: Temperature Zones -->
+        <div class="glass-container fly-in-up delay-100 border-l-4 border-orange-500">
+            <h2 class="text-2xl font-bold text-orange-800 mb-4 tamil-font flex items-center gap-2">
+                <i class="fas fa-thermometer-half"></i> வெப்பநிலை வலயங்கள்
+            </h2>
+            
+            <ul class="temp-list tamil-font text-lg">
+                <li>
+                    <span class="font-bold text-slate-800">தாழ்நிலப் பகுதிகள் (Lowlands):</span><br>
+                    <span class="text-orange-600 font-bold text-xl">26°C – 32°C</span> — வடக்கு கிழக்கில் அதிக சூடு (34–36°C).
+                </li>
+                <li>
+                    <span class="font-bold text-slate-800">நடுநிலப் பகுதிகள் (Mid-Country):</span><br>
+                    <span class="text-yellow-600 font-bold text-xl">22°C – 28°C</span> — மிதமான சூடு.
+                </li>
+                <li>
+                    <span class="font-bold text-slate-800">மலைநிலப் பகுதிகள் (Up-Country):</span><br>
+                    <span class="text-blue-500 font-bold text-xl">12°C – 20°C</span> — நுவரெலியா மிகக் குளிர் (8–10°C வரை).
+                </li>
+            </ul>
+        </div>
+
+        <!-- IMAGE CONTAINER 1 -->
+        <div class="img-wrapper fly-in-up delay-200">
+            <!-- Sunny Sri Lanka Image -->
+            <img src="image11.jpeg" alt="Sunny Sri Lanka Coast">
+            <div class="img-overlay">
+                <p class="font-bold text-lg tamil-font">தாழ்நிலப் பகுதிகள் (Lowlands)</p>
+                <p class="text-sm">High temperatures in coastal and northern regions.</p>
+            </div>
+        </div>
+
+        <!-- CONTAINER 2: Variations & Monsoon Impact -->
+        <div class="glass-container fly-in-up delay-300 border-l-4 border-red-500">
+            <h2 class="text-2xl font-bold text-red-800 mb-6 tamil-font flex items-center gap-2">
+                <i class="fas fa-map-marked-alt"></i> வேறுபாடுகள் மற்றும் தாக்கம்
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Provincial Diff -->
+                <div>
+                    <h3 class="font-bold text-slate-700 mb-3 tamil-font uppercase tracking-wider border-b border-red-200 pb-1">மாகாண வேறுபாடு</h3>
+                    <ul class="space-y-3 tamil-font text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-sun text-orange-500 mt-1"></i>
+                            <span><strong class="text-slate-900">வடக்கு, கிழக்கு:</strong><br>சூடான மற்றும் வறண்ட பகுதிகள்.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-water text-blue-500 mt-1"></i>
+                            <span><strong class="text-slate-900">மேற்கு, தெற்கு:</strong><br>ஈரப்பதம் கூடிய சூடு.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-snowflake text-cyan-500 mt-1"></i>
+                            <span><strong class="text-slate-900">மத்திய மலைநிலம்:</strong><br>குளிர்ந்த காலநிலை.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Monsoon Impact -->
+                <div>
+                    <h3 class="font-bold text-slate-700 mb-3 tamil-font uppercase tracking-wider border-b border-red-200 pb-1">மழைக்கால தாக்கம்</h3>
+                    <ul class="space-y-3 tamil-font text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-cloud-rain text-indigo-500 mt-1"></i>
+                            <span><strong class="text-slate-900">தென்மேற்கு மழை:</strong><br>வெப்பநிலை சிறிது குறைவு.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-temperature-low text-blue-600 mt-1"></i>
+                            <span><strong class="text-slate-900">வடகிழக்கு மழை:</strong><br>மலைநிலத்தில் அதிக குளிர்.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMAGE CONTAINER 2 -->
+        <div class="img-wrapper fly-in-up delay-400">
+            <!-- Misty Mountains Image (Nuwara Eliya style) -->
+            <img src="images12.jpeg" alt="Misty Sri Lanka Mountains">
+            <div class="img-overlay">
+                <p class="font-bold text-lg tamil-font">மத்திய மலைநிலம் (Hill Country)</p>
+                <p class="text-sm">Cool climate in Nuwara Eliya and central hills.</p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="mt-12 text-center pb-8 border-t border-slate-300 pt-6 fly-in-up delay-400">
+            <div class="flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+                <div class="flex flex-col items-center md:items-start mb-4 md:mb-0">
+                    <span class="uppercase tracking-widest text-xs font-bold mb-1">Department</span>
+                    <span class="font-bold text-slate-700">Department of Geography</span>
+                </div>
+                
+                <div class="text-2xl text-orange-300 opacity-30">
+                    <i class="fas fa-sun"></i>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end">
+                    <span class="uppercase tracking-widest text-xs font-bold mb-1">University</span>
+                    <span class="font-bold text-slate-700">University of Jaffna</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

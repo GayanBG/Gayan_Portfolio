@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture of Sri Lanka - Group 05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600&family=Noto+Sans+Tamil:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #fef3c7 100%); /* Green to Earthy Yellow */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+        .tamil-font { font-family: 'Noto Sans Tamil', sans-serif; }
+        .serif-font { font-family: 'Playfair Display', serif; }
+
+        /* Glass Container Styling */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-container:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 40px rgba(0,128,0,0.1); /* Green shadow */
+        }
+
+        /* Image Container & Animation */
+        .img-wrapper {
+            width: 100%;
+            /* height: 400px;  REMOVED fixed height to show full image */
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            border: 4px solid white;
+            background-color: rgba(0,0,0,0.05); /* Subtle background */
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: auto; /* Changed to auto to maintain aspect ratio */
+            display: block;
+            /* object-fit: cover; REMOVED to prevent cropping */
+            transition: transform 3s ease-in-out;
+        }
+
+        /* Zoom and Move Effect */
+        .img-wrapper:hover img {
+            transform: scale(1.15) translateY(-10px);
+        }
+
+        /* Overlay text on image */
+        .img-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .img-wrapper:hover .img-overlay { opacity: 1; }
+
+        /* Animations */
+        .fly-in-up { animation: flyInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(50px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        @keyframes flyInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* List Styling */
+        .custom-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .custom-list li::before {
+            content: '🌱';
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed; top: 2rem; left: 2rem; z-index: 50;
+            background: white; padding: 0.8rem 1.5rem; border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); font-weight: 600; color: #334155;
+            display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; text-decoration: none;
+        }
+        .back-btn:hover { transform: translateX(-5px); color: #16a34a; }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <a href="Pre.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Home
+    </a>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto pt-16">
+
+        <!-- HEADER -->
+        <header class="text-center mb-12 fly-in-up">
+            <div class="inline-block px-3 py-1 bg-green-800 text-white text-xs font-bold rounded tech-font mb-3">GROUP 05</div>
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-800 serif-font mb-2">Agriculture of Sri Lanka</h1>
+            <div class="h-1 w-24 bg-green-500 mx-auto rounded-full"></div>
+            <p class="mt-4 text-green-700 font-bold tracking-widest text-sm uppercase">2021/A/441</p>
+        </header>
+
+        <!-- CONTAINER 1: TEXT -->
+        <div class="glass-container fly-in-up delay-100 border-l-4 border-green-500">
+            <h2 class="text-2xl font-bold text-green-800 mb-4 tamil-font flex items-center gap-2">
+                <i class="fas fa-seedling"></i> இலங்கையின் விவசாயம்
+            </h2>
+            <p class="text-slate-700 leading-relaxed mb-4 tamil-font text-lg">
+                இலங்கையின் விவசாயம் நெல் பயிரிடுவதில் முக்கிய கவனம் செலுத்துகிறது. மேலும் அது பல்வேறு வகையான பயிர்களையும், தோட்டப் பயிர்களையும் கொண்டுள்ளது.
+            </p>
+            <div class="bg-green-50 p-4 rounded-xl">
+                <h3 class="font-bold text-slate-800 mb-2 tamil-font">முக்கிய அம்சங்கள்:</h3>
+                <ul class="custom-list text-slate-700 tamil-font">
+                    <li>நெல் (Paddy)</li>
+                    <li>பல்வேறு பயிர்கள் (Various Crops)</li>
+                    <li>தோட்டப் பயிர்கள் (Plantation Crops)</li>
+                    <li>அரச நிறுவனங்கள் (Govt Institutions)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- IMAGE CONTAINER 1 -->
+        <div class="img-wrapper fly-in-up delay-200">
+            <!-- Paddy Field Image -->
+            <img src="image2.jpeg" alt="Sri Lanka Paddy Field">
+            <div class="img-overlay">
+                <p class="font-bold text-lg tamil-font">நெல் வயல்கள் (Paddy Fields)</p>
+                <p class="text-sm">The heart of Sri Lankan Agriculture</p>
+            </div>
+        </div>
+
+        <!-- CONTAINER 2: TEXT -->
+        <div class="glass-container fly-in-up delay-300 border-l-4 border-yellow-500">
+            <h2 class="text-2xl font-bold text-yellow-700 mb-4 tamil-font flex items-center gap-2">
+                <i class="fas fa-tractor"></i> விவசாய வகைகள்
+            </h2>
+            <p class="text-slate-700 leading-relaxed mb-4 tamil-font text-lg">
+                இலங்கையின் விவசாயம் பல்வேறு வகைகளில் உள்ளது:
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ul class="custom-list text-slate-700 tamil-font">
+                    <li>தன்னிறைவு வேளாண்மை</li>
+                    <li>மாற்றிட வேளாண்மை</li>
+                    <li>தீவிர வேளாண்மை</li>
+                </ul>
+                <ul class="custom-list text-slate-700 tamil-font">
+                    <li>வணிக வேளாண்மை</li>
+                    <li>தோட்டப் பயிர்கள்</li>
+                    <li>கலப்பு பண்ணை</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- IMAGE CONTAINER 2 -->
+        <div class="img-wrapper fly-in-up delay-400">
+            <!-- Tea Plantation Image -->
+            <img src="image4.jpeg" alt="Sri Lanka Tea Plantation">
+            <div class="img-overlay">
+                <p class="font-bold text-lg tamil-font">தோட்டப் பயிர்கள் (Plantations)</p>
+                <p class="text-sm">Tea, Rubber, and Coconut cultivation</p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="mt-12 text-center pb-8 border-t border-slate-300 pt-6 fly-in-up delay-400">
+            <div class="flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+                <div class="flex flex-col items-center md:items-start mb-4 md:mb-0">
+                    <span class="uppercase tracking-widest text-xs font-bold mb-1">Department</span>
+                    <span class="font-bold text-slate-700">Department of Geography</span>
+                </div>
+                
+                <div class="text-2xl text-green-300 opacity-20">
+                    <i class="fas fa-leaf"></i>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end">
+                    <span class="uppercase tracking-widest text-xs font-bold mb-1">University</span>
+                    <span class="font-bold text-slate-700">University of Jaffna</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
