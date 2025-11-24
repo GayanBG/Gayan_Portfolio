@@ -1,305 +1,391 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Brand Kit Development</title>
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Google Font (Inter) --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Climate and Agriculture of Sri Lanka - Group 05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* --- Custom Styles --- */
-        html, body {
-            height: 100%;
-            overflow: hidden; /* This is the key to prevent scrolling */
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Dark Slate Blue */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85); /* Increased opacity for contrast */
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --card-height: auto; 
         }
 
-        /* Full-screen container */
-        .slide-container {
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            color: #E2E8F0; /* Slate 200 */
-            /* AI grid background */
-            background:
-                linear-gradient(0deg, rgba(0, 191, 255, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 191, 255, 0.07) 1px, transparent 1px),
-                radial-gradient(circle at 90% 10%, rgba(0, 191, 255, 0.2) 0%, rgba(0, 191, 255, 0) 30%),
-                radial-gradient(circle at 10% 90%, rgba(138, 43, 226, 0.15) 0%, rgba(138, 43, 226, 0) 30%),
-                #0f172a;
-            background-size: 30px 30px, 30px 30px, 100% 100%, 100% 100%, 100% 100%;
-            position: relative; /* Needed for z-index on motes container */
         }
-        
-        /* --- Flying Dots Animation --- */
-        .dots-container {
+
+        /* Typography */
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+
+        /* Satellite/Terrain Map Effect */
+        .map-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1; /* Behind content, above background grid */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vh;
+            height: auto;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6; /* Slightly darker for visibility */
+            filter: drop-shadow(0px 30px 30px rgba(0, 0, 0, 0.1));
+            animation: floatMap 8s ease-in-out infinite;
         }
 
-        .dot {
-            position: absolute;
-            background: rgba(0, 191, 255, 0.3); /* Cyan color */
-            border-radius: 50%;
-            filter: blur(2px);
-            animation: fly-dots 10s linear infinite;
-            opacity: 0;
-            will-change: transform, opacity;
-            bottom: -20px; /* Start from below the screen */
+        @keyframes floatMap {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
         }
 
-        /* Create 10 dots */
-        .dot:nth-child(1) { width: 10px; height: 10px; left: 10%; animation-duration: 12s; animation-delay: 0s; }
-        .dot:nth-child(2) { width: 5px; height: 5px; left: 20%; animation-duration: 15s; animation-delay: -2s; background: rgba(138, 43, 226, 0.3); } /* Purple */
-        .dot:nth-child(3) { width: 8px; height: 8px; left: 30%; animation-duration: 10s; animation-delay: -5s; }
-        .dot:nth-child(4) { width: 12px; height: 12px; left: 40%; animation-duration: 18s; animation-delay: -3s; }
-        .dot:nth-child(5) { width: 6px; height: 6px; left: 50%; animation-duration: 13s; animation-delay: -7s; background: rgba(138, 43, 226, 0.3); } /* Purple */
-        .dot:nth-child(6) { width: 10px; height: 10px; left: 60%; animation-duration: 11s; animation-delay: -4s; }
-        .dot:nth-child(7) { width: 7px; height: 7px; left: 70%; animation-duration: 14s; animation-delay: -1s; }
-        .dot:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-duration: 16s; animation-delay: -6s; background: rgba(138, 43, 226, 0.3); } /* Purple */
-        .dot:nth-child(9) { width: 9px; height: 9px; left: 90%; animation-duration: 12s; animation-delay: -8s; }
-        .dot:nth-child(10) { width: 6px; height: 6px; left: 100%; animation-duration: 17s; animation-delay: -9s; }
-
-        @keyframes fly-dots {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; } /* Start from bottom (relative to parent) */
-            10%, 90% { opacity: 1; }
-            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; } /* Fly up past the top */
-        }
-
-
-        /* --- Element Load-in Animations --- */
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-100%); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(100%); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes popIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Header styling */
-        .header {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.5); /* slate-900 at 50% */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #1e293b; /* Slate 800 */
-            z-index: 50;
-            opacity: 0; /* Start hidden */
-            animation: slideDown 0.8s ease-out 0.1s forwards;
-            will-change: transform, opacity;
-            position: relative; /* Ensure z-index works */
-        }
-
-        /* Main content area (takes up remaining space) */
-        .main-content {
-            flex-grow: 1; /* This makes it fill the available space */
+        /* Card Grid */
+        .card-grid {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
-            padding: 2rem;
-            opacity: 0; /* Start hidden */
-            animation: popIn 1s ease-out 0.4s forwards;
-            will-change: transform, opacity;
-            position: relative; /* Ensure z-index works */
-            z-index: 10; /* Above motes */
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+            margin-bottom: 4rem;
         }
 
-        /* Glassmorphism card for home page title */
+        .grid-item {
+            flex: 0 0 380px;
+            min-width: 320px;
+            max-width: 400px;
+        }
+
+        /* Glass Cards */
         .glass-card {
-            background: rgba(15, 23, 42, 0.6); /* slate-900 at 60% opacity */
-            backdrop-filter: blur(12px);
-            border: 1px solid #334155; /* slate-700 */
-            border-radius: 1.25rem; /* rounded-2xl */
-            padding: 2.5rem; /* p-10 */
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 48rem; /* max-w-3xl */
-            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        /* Card Accents & Icons */
+        .card-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+        .glass-card:hover .card-icon { transform: scale(1.1) rotate(5deg); }
+
+        .glass-card.green .card-icon { background: #dcfce7; color: #15803d; }
+        .glass-card.blue .card-icon { background: #dbeafe; color: #1e40af; }
+        .glass-card.cyan .card-icon { background: #cffafe; color: #0e7490; }
+        .glass-card.orange .card-icon { background: #ffedd5; color: #c2410c; }
+        .glass-card.emerald .card-icon { background: #ecfccb; color: #3f6212; }
+
+        /* Menu Number */
+        .menu-num {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(0,0,0,0.05);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Clickable Menu Items */
+        .menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            border-radius: 0.5rem;
+            transition: background 0.2s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .menu-link:hover {
+            background: rgba(0,0,0,0.03);
+            border-left-color: currentColor;
         }
         
-        /* Decorated outline for the profile image */
-        .profile-image-container {
-            width: 130px; /* Smaller */
-            height: 130px;
-            border-radius: 1.25rem; /* rounded-2xl */
-            padding: 4px;
-            background: linear-gradient(135deg, #00BFFF, #8A2BE2);
-            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3), 0 0 20px rgba(138, 43, 226, 0.3);
-            margin: 0 auto 1.5rem auto; /* Center the image */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added hover transition */
-        }
+        .glass-card.green .menu-link:hover { border-left-color: #15803d; }
+        .glass-card.blue .menu-link:hover { border-left-color: #1e40af; }
+        .glass-card.cyan .menu-link:hover { border-left-color: #0e7490; }
+        .glass-card.orange .menu-link:hover { border-left-color: #c2410c; }
+        .glass-card.emerald .menu-link:hover { border-left-color: #3f6212; }
+
+        /* Animations */
+        .fly-in { opacity: 0; animation: flyIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transform: translateY(30px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
         
-        .profile-image-container:hover { /* Added hover effect */
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 191, 255, 0.5), 0 0 30px rgba(138, 43, 226, 0.5);
-        }
+        @keyframes flyIn { to { opacity: 1; transform: translateY(0); } }
 
-        .profile-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 1rem; /* rounded-xl */
-            border: 3px solid #0f172a; /* Match the dark bg */
+        /* Marquee */
+        .marquee-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 20;
         }
-        
-        /* Navigation Links (as "Pages") */
-        .page-nav-link {
-            background-color: #1e293b; /* Slate 800 */
-            color: #cbd5e1; /* Slate 300 */
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem; /* rounded-md */
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid #334155; /* Slate 700 */
-            text-decoration: none; /* Remove underline */
-            opacity: 0; /* Start hidden for animation */
-            animation: fadeInUp 0.5s ease-out forwards;
-            will-change: transform, opacity;
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 40s linear infinite;
         }
-        .page-nav-link:hover {
-            background-color: #334155; /* Slate 700 */
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.1);
-        }
-
-        /* Staggered delays for nav links */
-        .page-nav-link:nth-child(1) { animation-delay: 1.0s; }
-        .page-nav-link:nth-child(2) { animation-delay: 1.1s; }
-        .page-nav-link:nth-child(3) { animation-delay: 1.2s; }
-        .page-nav-link:nth-child(4) { animation-delay: 1.3s; }
-        .page-nav-link:nth-child(5) { animation-delay: 1.4s; }
-
-
-        /* Footer styling */
-        .footer {
-            width: 100%;
-            padding: 1rem;
-            z-index: 50;
-            background-color: #0f172a; /* Match bg */
-            border-top: 1px solid #1e293b; /* Slate 800 */
-            opacity: 0; /* Start hidden */
-            animation: slideUp 0.8s ease-out 0.1s forwards;
-            will-change: transform, opacity;
-            position: relative; /* Ensure z-index works */
-        }
-
-        /* Footer Icon Styling */
-        .footer-icon {
-            color: #94a3b8; /* slate-400 */
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .footer-icon:hover {
-            color: #00BFFF; /* cyan-400 */
-            transform: scale(1.1);
-        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     </style>
 </head>
-<body class="bg-slate-900">
+<body class="selection:bg-slate-300 selection:text-slate-900">
 
-    <div class="slide-container">
+    <!-- Background Map -->
+    <svg class="map-container" viewBox="0 0 458 877" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="satelliteTexture" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" result="noise" />
+                <feDiffuseLighting in="noise" lighting-color="#ffffff" surfaceScale="2">
+                    <feDistantLight azimuth="45" elevation="60" />
+                </feDiffuseLighting>
+                <feComposite operator="in" in2="SourceGraphic" />
+            </filter>
+        </defs>
+        <path filter="url(#satelliteTexture)" fill="#64748b" opacity="0.2" d="M225.5,0.5 C240.5,10.5 250.5,20.5 255.5,35.5 C260.5,50.5 255.5,60.5 250.5,70.5 C245.5,80.5 240.5,90.5 245.5,100.5 C250.5,110.5 260.5,115.5 270.5,120.5 C280.5,125.5 290.5,130.5 295.5,140.5 C300.5,150.5 305.5,160.5 300.5,170.5 C295.5,180.5 290.5,190.5 295.5,200.5 C300.5,210.5 310.5,215.5 320.5,220.5 C330.5,225.5 340.5,230.5 345.5,240.5 C350.5,250.5 355.5,260.5 360.5,270.5 C365.5,280.5 370.5,290.5 365.5,300.5 C360.5,310.5 355.5,320.5 350.5,330.5 C345.5,340.5 340.5,350.5 345.5,360.5 C350.5,370.5 360.5,380.5 370.5,390.5 C380.5,400.5 390.5,410.5 395.5,420.5 C400.5,430.5 405.5,440.5 400.5,450.5 C395.5,460.5 390.5,470.5 385.5,480.5 C380.5,490.5 375.5,500.5 370.5,510.5 C365.5,520.5 360.5,530.5 355.5,540.5 C350.5,550.5 345.5,560.5 340.5,570.5 C335.5,580.5 330.5,590.5 325.5,600.5 C320.5,610.5 315.5,620.5 310.5,630.5 C305.5,640.5 300.5,650.5 295.5,660.5 C290.5,670.5 285.5,680.5 280.5,690.5 C275.5,700.5 270.5,710.5 265.5,720.5 C260.5,730.5 255.5,740.5 250.5,750.5 C245.5,760.5 240.5,770.5 235.5,780.5 C230.5,790.5 225.5,800.5 220.5,810.5 C215.5,820.5 210.5,830.5 205.5,840.5 C200.5,850.5 195.5,860.5 190.5,865.5 C185.5,870.5 175.5,875.5 165.5,870.5 C155.5,865.5 145.5,860.5 140.5,850.5 C135.5,840.5 130.5,830.5 125.5,820.5 C120.5,810.5 115.5,800.5 110.5,790.5 C105.5,780.5 100.5,770.5 95.5,760.5 C90.5,750.5 85.5,740.5 80.5,730.5 C75.5,720.5 70.5,710.5 65.5,700.5 C60.5,690.5 55.5,680.5 50.5,670.5 C45.5,660.5 40.5,650.5 35.5,640.5 C30.5,630.5 25.5,620.5 20.5,610.5 C15.5,600.5 10.5,590.5 5.5,580.5 C0.5,570.5 -0.5,560.5 0.5,550.5 C1.5,540.5 5.5,530.5 10.5,520.5 C15.5,510.5 20.5,500.5 25.5,490.5 C30.5,480.5 35.5,470.5 40.5,460.5 C45.5,450.5 50.5,440.5 55.5,430.5 C60.5,420.5 65.5,410.5 70.5,400.5 C75.5,390.5 80.5,380.5 85.5,370.5 C90.5,360.5 95.5,350.5 100.5,340.5 C105.5,330.5 110.5,320.5 115.5,310.5 C120.5,300.5 125.5,290.5 130.5,280.5 C135.5,270.5 140.5,260.5 145.5,250.5 C150.5,240.5 155.5,230.5 160.5,220.5 C165.5,210.5 170.5,200.5 175.5,190.5 C180.5,180.5 185.5,170.5 190.5,160.5 C195.5,150.5 200.5,140.5 205.5,130.5 C210.5,120.5 215.5,110.5 220.5,100.5 C225.5,90.5 230.5,80.5 225.5,70.5 C220.5,60.5 215.5,50.5 210.5,40.5 C205.5,30.5 200.5,20.5 210.5,10.5 C215.5,5.5 220.5,0.5 225.5,0.5 Z" />
+    </svg>
+
+    <!-- Header -->
+    <header class="relative z-20 w-full p-6 flex justify-between items-start">
+        <div class="fly-in flex items-center gap-4">
+            <div class="relative">
+                <span class="text-5xl font-black text-slate-800 opacity-10 absolute -top-2 -left-3">05</span>
+                <div class="relative z-10 bg-slate-900 text-white px-6 py-2 rounded-tr-2xl rounded-bl-2xl shadow-xl flex items-center gap-3 border-l-4 border-green-500">
+                    <i class="fas fa-satellite-dish text-green-400"></i>
+                    <span class="font-bold text-lg tracking-widest tech-font">GROUP 05</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-right fly-in delay-100">
+            <div class="bg-white/80 backdrop-blur px-4 py-2 rounded-lg shadow-sm border border-slate-200">
+                <p class="text-xs font-extrabold text-slate-700 uppercase tracking-widest">Geography 2025</p>
+                <p class="text-[10px] text-slate-500 font-bold">Final Assignment</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center w-full px-4 py-8">
         
-        <!-- --- Flying Dots Background --- -->
-        <div class="dots-container">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+        <div class="text-center mb-12 fly-in delay-200">
+            <h1 class="text-5xl md:text-7xl font-bold mb-3 leading-tight text-slate-900 drop-shadow-sm">
+                <span class="block text-2xl md:text-3xl font-medium text-slate-600 mb-2 font-poppins">Geography of Sri Lanka</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-800 to-blue-800">
+                    Climate & Agriculture
+                </span>
+            </h1>
+            <div class="flex justify-center gap-2 mt-4 opacity-80">
+                <span class="w-12 h-1 bg-green-600 rounded-full"></span>
+                <span class="w-2 h-1 bg-blue-600 rounded-full"></span>
+                <span class="w-12 h-1 bg-green-600 rounded-full"></span>
+            </div>
         </div>
 
-        <!-- --- Header --- -->
-        <header class="header">
-            <nav class="container mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
-                <!-- Logo --><a href="index.html" class="text-xl font-bold text-white tracking-wide">
-                    Ai <span class="text-cyan-400">Boot Camp</span> Ai <span class="text-purple-400">Cloud</span>
-                </a>
-                
-                <!-- Presenter Info (Top Right) --><div>
-                    <div classD-LAYOUT_NODE="text-white font-bold text-right">BG.Gayan</div>
-                    <div class="text-cyan-400 text-sm text-right">University of Jaffna</div>
-                </div>
-            </nav>
-        </header>
+        <!-- Menu Grid -->
+        <div class="card-grid fly-in delay-300">
 
-        <!-- --- Main Content (Fills the space) --- -->
-        <main class="main-content">
-            
-            <!-- Central Content Card --><div class="glass-card">
-                
-                <!-- User Image --><div class="profile-image-container">
-                    <!-- Placeholder for your image --><img src="i2.jpg" alt="Profile image of BG.Gayan">
-                </div>
-                
-                <!-- Presentation Title --><h1 class="text-4xl md:text-5xl font-black text-white leading-tight">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
-                        Brand Kit Development
-                    </span>
-                </h1>
-                <p class="mt-2 text-xl text-slate-300">Scenario A: Northern Threads</p>
-                
-                <!-- Divider --><hr class="my-6 border-slate-700">
-                
-                <!-- Navigation to other pages --><h2 class="text-lg font-semibold text-white mb-4">View Presentation Pages</h2>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <a href="logo.html" class="page-nav-link">Logo Design</a>
-                    <a href="slogan.html" class="page-nav-link">Slogan</a>
-                    <a href="flyer.html" class="page-nav-link">Flyer</a>
-                    <a href="video.html" class="page-nav-link">Video</a>
-                    <a href="caption.html" class="page-nav-link">Captions</a>
-					<a href="thanks.html" class="page-nav-link">Thanks</a>
-                </div>
-                
-            </div>
-            
-        </main>
-
-        <!-- --- Footer (Stays at the bottom) --- -->
-        <footer class="footer">
-            <div class="container mx-auto max-w-7xl px-6 flex justify-between items-center">
-                <!-- Copyright --><p class="text-xs text-gray-500">
-                    &copy; 2024 BG Gayan. All rights reserved.
-                </p>
-                <!-- Social Icons --><div class="flex justify-center gap-4">
-                    <!-- WhatsApp --><a href="https://wa.me/94762724950" target="_blank" class="footer-icon">
-                        <span class="sr-only">WhatsApp</span>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.06 21.94L7.31 20.58C8.76 21.39 10.37 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2ZM12.04 20.13C10.52 20.13 9.04 19.7 7.79 18.9L7.4 18.66L3.92 19.58L4.87 16.2L4.62 15.79C3.81 14.47 3.4 12.98 3.4 11.41C3.4 7.32 7.33 3.7 12.04 3.7C16.75 3.7 20.68 7.32 20.68 11.91C20.68 16.5 16.75 20.13 12.04 20.13ZM17.48 14.53C17.2 14.4 16.03 13.84 15.78 13.74C15.53 13.64 15.35 13.59 15.17 13.89C14.99 14.19 14.5 14.7 14.33 14.87C14.15 15.04 13.97 15.06 13.7 14.93C13.43 14.8 12.61 14.53 11.64 13.66C10.88 12.97 10.39 12.18 10.26 11.93C10.13 11.68 10.24 11.56 10.36 11.44C10.47 11.33 10.6 11.16 10.73 11C10.86 10.84 10.91 10.71 11.01 10.51C11.11 10.31 11.06 10.14 10.99 10C10.92 9.86 10.45 8.7 10.25 8.2C10.05 7.7 9.85 7.75 9.7 7.74C9.55 7.73 9.37 7.73 9.19 7.73C9.01 7.73 8.76 7.78 8.53 8.03C8.3 8.28 7.8 8.73 7.8 9.73C7.8 10.73 8.56 11.68 8.68 11.85C8.8 12.02 10.45 14.5 12.9 15.49C13.51 15.77 14.01 15.93 14.41 16.03C14.93 16.16 15.42 16.13 15.81 16.05C16.24 15.96 17.2 15.4 17.43 14.8C17.66 14.2 17.66 13.7 17.58 13.59C17.51 13.48 17.36 13.43 17.2 13.3Z"/></svg>
-                    </a>
-                    <!-- Gmail --><a href="mailto:gayangayan474@gmail.com" class="footer-icon">
-                        <span class="sr-only">Gmail</span>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z"/></svg>
-                    </a>
-                    <!-- LinkedIn --><a href="#" class="footer-icon">
-                        <span class="sr-only">LinkedIn</span>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0H5C2.24 0 0 2.24 0 5V19C0 21.76 2.24 24 5 24H19C21.76 24 24 21.76 24 19V5C24 2.24 21.76 0 19 0ZM8 19H5V8H8V19ZM6.5 6.5C5.12 6.5 4 5.38 4 4C4 2.62 5.12 1.5 6.5 1.5C7.88 1.5 9 2.62 9 4C9 5.38 7.88 6.5 6.5 6.5ZM20 19H17V13.37C17 10.32 16.08 8.82 14.03 8.82C12.19 8.82 11.2 9.92 10.82 10.97C10.68 11.34 10.66 11.82 10.66 12.3V19H7.66V8H10.5V9.4C10.97 8.69 11.94 7.9 13.61 7.9C16.89 7.9 18.02 10.02 18.02 12.91L17.98 13.02L18 13.02V19H20V19Z"/></svg>
-                    </a>
+            <!-- Card 1: Overview -->
+            <div class="grid-item">
+                <div class="glass-card green">
+                    <span class="menu-num">01</span>
+                    <div class="card-icon"><i class="fas fa-globe-asia"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Overview</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page1.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Srilanka Climate</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/497</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page2.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Srilanka Agriculture</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/441</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
 
-    </div>
+            <!-- Card 2: Zones -->
+            <div class="grid-item">
+                <div class="glass-card blue">
+                    <span class="menu-num">02</span>
+                    <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Zonal Analysis</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page8.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Major Climate Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/633</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='#'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Influence Factors</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2020/A/598</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Rainfall -->
+            <div class="grid-item">
+                <div class="glass-card cyan">
+                    <span class="menu-num">03</span>
+                    <div class="card-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Rainfall</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page4.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Rainfall Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/200</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page9.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Impact</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/007</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Temperature -->
+            <div class="grid-item">
+                <div class="glass-card orange">
+                    <span class="menu-num">04</span>
+                    <div class="card-icon"><i class="fas fa-temperature-high"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Temperature</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page5.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Temp. Distribution</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/183</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page5.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Impact</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/570</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Systems -->
+            <div class="grid-item">
+                <div class="glass-card emerald">
+                    <span class="menu-num">05</span>
+                    <div class="card-icon"><i class="fas fa-seedling"></i></div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Agri Systems</h3>
+                    <div class="space-y-2 w-full">
+                        <div class="menu-link" onclick="window.location.href='page6.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Agricultural Zones</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/383</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                        <div class="w-full h-px bg-slate-300"></div>
+                        <div class="menu-link" onclick="window.location.href='page7.html'">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800">Irrigation System</div>
+                                <div class="text-xs text-slate-500 font-mono font-semibold">2021/A/612</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full bg-white border-t border-slate-300">
+        <div class="marquee-container py-3">
+            <div class="marquee-content">
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-green-600"></i> Gayan 2021/A/497</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-blue-600"></i> Member Two 2021/A/441</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-cyan-600"></i> Member Three 2021/A/633</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-orange-600"></i> Member Four 2020/A/598</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-emerald-600"></i> Member Five 2021/A/200</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-purple-600"></i> Member Six 2021/A/007</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-pink-600"></i> Member Seven 2021/A/183</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-red-600"></i> Member Eight 2021/A/570</span>
+                <!-- Duplicate -->
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-green-600"></i> Gayan 2021/A/497</span>
+                <span class="mx-8 text-sm font-bold text-slate-700"><i class="fas fa-user-circle mr-2 text-blue-600"></i> Member Two 2021/A/441</span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center px-8 py-5">
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Department</p>
+                <p class="font-bold text-slate-800">Geography</p>
+            </div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white shadow-lg">
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">University</p>
+                <p class="font-bold text-slate-800">Jaffna</p>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
-
