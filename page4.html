@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rainfall Distribution - Group 05</title>
+    <title>Rainfall Seasons - Group 05</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -11,238 +11,281 @@
 
         body {
             font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
-            /* Rainy/Atmospheric Gradient: Blue-Grey to White */
-            background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 50%, #dbeafe 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
+            /* Gradient: Stormy Sky to Clear Water */
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #dbeafe 100%);
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
         }
 
         .tech-font { font-family: 'Orbitron', sans-serif; }
         .tamil-font { font-family: 'Noto Sans Tamil', sans-serif; }
         .serif-font { font-family: 'Playfair Display', serif; }
 
-        /* Glass Section Styling */
-        .glass-section {
+        /* LAYOUT */
+        .split-layout {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            flex-direction: row;
+        }
+
+        /* --- LEFT PANEL (Content) --- */
+        .content-panel {
+            flex: 0 0 55%;
+            max-width: 55%;
+            overflow-y: auto;
+            padding: 2rem 3rem;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #0284c7 transparent;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- RIGHT PANEL (Visual) --- */
+        .visual-panel {
+            flex: 0 0 45%;
+            max-width: 45%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(to bottom right, #0369a1, #1e3a8a);
+            border-left: 1px solid rgba(255,255,255,0.5);
+            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .side-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.8;
+            transition: transform 10s ease;
+        }
+        .visual-panel:hover .side-image {
+            transform: scale(1.05);
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Cards */
+        .data-card {
             background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            overflow: hidden; /* Clips the image corners */
-            margin-bottom: 2.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .data-card:hover { 
+            transform: translateY(-5px); 
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 30px rgba(3, 105, 161, 0.15);
         }
 
-        .glass-section:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 40px rgba(3, 105, 161, 0.15); /* Blue shadow for rain theme */
+        /* Colored Accents */
+        .data-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
         }
+        .data-card.sky::before { background: #38bdf8; }
+        .data-card.blue::before { background: #2563eb; }
+        .data-card.indigo::before { background: #6366f1; }
+        .data-card.purple::before { background: #a855f7; }
 
-        /* Image Styling within Section */
-        .section-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 3s ease-in-out;
-        }
-        
-        /* Zoom Effect on Container Hover */
-        .glass-section:hover .section-img {
-            transform: scale(1.1);
-        }
-
-        /* Layout Utility for Alternating Content */
-        .content-grid {
+        /* Content Layout */
+        .card-content-grid {
             display: grid;
             grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
-        
-        @media (min-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr 1fr;
-                align-items: center;
-            }
-            .order-swap .text-area { order: 2; }
-            .order-swap .img-area { order: 1; }
-            /* Full height image on desktop */
-            .section-img { height: 100%; min-height: 300px; }
+        @media (min-width: 640px) {
+            .card-content-grid { grid-template-columns: 3fr 2fr; }
         }
 
-        .text-area { padding: 2rem; }
-        .img-area { overflow: hidden; height: 100%; }
+        /* Images inside cards */
+        .card-img {
+            width: 100%;
+            height: 100%;
+            min-height: 160px;
+            object-fit: cover;
+            border-radius: 1rem;
+            transition: transform 0.4s;
+        }
+        .data-card:hover .card-img { transform: scale(1.05); }
 
-        /* Animations */
-        .fly-in { animation: flyIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(40px); }
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
-        .delay-600 { animation-delay: 0.6s; }
-
-        @keyframes flyIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* List Styles */
+        /* List Styling */
         .rain-list li {
             margin-bottom: 0.5rem;
             padding-left: 1.5rem;
             position: relative;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #475569;
         }
         .rain-list li::before {
-            content: '💧';
-            position: absolute;
-            left: 0;
-            font-size: 0.8rem;
+            content: '⛈️';
+            position: absolute; left: 0; font-size: 0.8rem;
         }
 
         /* Back Button */
         .back-btn {
-            position: fixed; top: 2rem; left: 2rem; z-index: 50;
-            background: white; padding: 0.8rem 1.5rem; border-radius: 50px;
+            position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50;
+            background: white; padding: 0.6rem 1.2rem; border-radius: 50px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); font-weight: 600; color: #334155;
             display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; text-decoration: none;
+            font-size: 0.9rem;
         }
-        .back-btn:hover { transform: translateX(-5px); color: #0ea5e9; }
+        .back-btn:hover { transform: translateX(5px); color: #0284c7; }
 
+        @media (max-width: 1024px) {
+            .split-layout { flex-direction: column-reverse; overflow-y: auto; }
+            .visual-panel { flex: 0 0 300px; width: 100%; border-left: none; border-bottom: 4px solid white; }
+            .content-panel { flex: 1; width: 100%; height: auto; overflow-y: visible; padding: 1.5rem; }
+            .back-btn { top: 1rem; right: 1rem; }
+            body { overflow: auto; height: auto; }
+        }
     </style>
 </head>
-<body class="p-4 md:p-8 pb-20">
+<body>
 
     <a href="Pre.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Home
+        Home <i class="fas fa-arrow-right"></i>
     </a>
 
-    <!-- Main Container -->
-    <div class="max-w-5xl mx-auto pt-16">
+    <div class="split-layout">
+        
+        <!-- LEFT: CONTENT PANEL -->
+        <div class="content-panel">
+            
+            <header class="mb-8">
+                <div class="inline-block px-3 py-1 bg-sky-100 text-sky-800 text-xs font-bold rounded tech-font mb-2">GROUP 05</div>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 serif-font">Rainfall Seasons</h2>
+                <p class="text-sm text-slate-500 mt-1 uppercase tracking-wider font-bold">Seasonal Patterns & Impact</p>
+            </header>
 
-        <!-- HEADER -->
-        <header class="text-center mb-16 fly-in">
-            <div class="inline-block px-3 py-1 bg-sky-800 text-white text-xs font-bold rounded tech-font mb-3">GROUP 05</div>
-            <h1 class="text-4xl md:text-6xl font-bold text-slate-800 serif-font mb-2">Rainfall Distribution</h1>
-            <div class="h-1 w-32 bg-sky-500 mx-auto rounded-full"></div>
-            <p class="mt-4 text-sky-700 font-bold tracking-widest text-sm uppercase">Zones & Seasons</p>
-        </header>
-
-        <!-- 1. First Inter-Monsoon -->
-        <div class="glass-section content-grid fly-in delay-100 border-l-4 border-sky-400">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-sky-800 mb-3 tamil-font">1. முதலாவது இடை மொன்குன்</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">மார்ச் – ஏப்ரல் (March - April)</p>
-                <ul class="rain-list tamil-font">
-                    <li>நிலப்பரப்பு வேகமாக சூடாகி காற்று மேல்நோக்கி எழுந்து குளிர்ந்த மேகங்களை உருவாக்குகிறது.</li>
-                    <li>மேகங்கள் பிற்பகல் அல்லது மாலையில் குறுகிய இடியுடன் கூடிய கனமழையைத் தருகின்றன.</li>
-                </ul>
-            </div>
-            <div class="img-area">
-                <img src="image5.jpg" class="section-img" alt="Thunderclouds">
-            </div>
-        </div>
-
-        <!-- 2. Southwest Monsoon (Formation) -->
-        <div class="glass-section content-grid order-swap fly-in delay-200 border-r-4 border-blue-600">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-blue-900 mb-3 tamil-font">2. தென்மேற்கு மொன்குன் (உருவாக்கம்)</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">மே – செப்டம்பர் (May - Sept)</p>
-                <ul class="rain-list tamil-font">
-                    <li>தென் அரைக்கோளத்திலிருந்து காற்று இந்தியப் பெருங்கடல் வழியாக வீசுகிறது.</li>
-                    <li>ஈரப்பதம் உறிஞ்சி மலைக்கு மோதுகிறது, இதனால் கனமழை பெய்கிறது.</li>
-                    <li>மலைகளை தாண்டும் போது கிழக்கு வறண்ட பகுதிகளில் மழை குறையும்.</li>
-                </ul>
-            </div>
-            <div class="img-area">
-                <img src="image6.jpg" class="section-img" alt="Monsoon Ocean Wind">
-            </div>
-        </div>
-
-        <!-- 3. Wet & Dry Zones -->
-        <div class="glass-section content-grid fly-in delay-300 border-l-4 border-green-500">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-green-800 mb-3 tamil-font">3. காலநிலை வலயங்கள்</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Wet & Dry Zones</p>
-                <div class="space-y-4">
+            <!-- 1. First Inter-Monsoon -->
+            <div class="data-card sky">
+                <div class="card-content-grid">
                     <div>
-                        <span class="badge bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-bold">Wet Zone</span>
-                        <p class="text-sm text-slate-600 mt-1 tamil-font">கொழும்பு, காலி, மாத்தறை, இரத்தினபுரி (2,500 - 5,000 மி.மீ).</p>
+                        <h3 class="text-lg font-bold text-sky-900 mb-2 tamil-font">1. முதலாவது இடை மொன்சூன் (மார்ச் – ஏப்ரல்)</h3>
+                        <div class="mb-3">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">உருவாக்கம் (Formation):</h4>
+                            <p class="text-sm text-slate-700 tamil-font leading-relaxed">நிலப்பரப்பு வேகமாக சூடாகி காற்று மேல்நோக்கி எழுந்து குளிர்ந்த மேகங்களை உருவாக்குகிறது. (Convectional Rain).</p>
+                            <p class="text-sm text-slate-700 tamil-font mt-1"><strong>மேகங்கள்:</strong> பிற்பகல்/மாலை குறுகிய இடியுடன் கூடிய கனமழை.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">பாதிக்கப்படும் பகுதிகள்:</h4>
+                            <ul class="rain-list tamil-font text-xs">
+                                <li><strong>அதிக மழை:</strong> தென்மேற்குப் பகுதிகள் (கொழும்பு, காலி, மாத்தறை).</li>
+                                <li><strong>நடுத்தர மழை:</strong> மத்திய மலைநாடு (கண்டி, நுவரெலியா).</li>
+                                <li><strong>குறைந்த மழை:</strong> வடக்கு மற்றும் கிழக்கு மாகாணங்கள்.</li>
+                            </ul>
+                        </div>
                     </div>
+                    <img src="n1.jpeg" class="card-img" alt="Evening Thunderstorm">
+                </div>
+            </div>
+
+            <!-- 2. Southwest Monsoon -->
+            <div class="data-card blue">
+                <div class="card-content-grid">
                     <div>
-                        <span class="badge bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-bold">Dry Zone</span>
-                        <p class="text-sm text-slate-600 mt-1 tamil-font">யாழ்ப்பாணம், மன்னார், அனுராதபுரம் (1,000 மி.மீ க்கும் குறைவு).</p>
+                        <h3 class="text-lg font-bold text-blue-900 mb-2 tamil-font">2. தென்மேற்கு மொன்சூன் (மே – செப்டம்பர்)</h3>
+                        <div class="mb-3">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">உருவாக்கம் (Formation):</h4>
+                            <p class="text-sm text-slate-700 tamil-font leading-relaxed">தென் அரைக்கோளத்திலிருந்து காற்று → இந்தியப் பெருங்கடல் → ஈரப்பதம் உறிஞ்சி மலைக்கு மோதுகிறது → கனமழை.</p>
+                            <p class="text-xs text-slate-500 mt-1 tamil-font">கிழக்கு வறண்ட பகுதிகளில் மழை குறையும் (Rain shadow).</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">பாதிக்கப்படும் பகுதிகள்:</h4>
+                            <ul class="rain-list tamil-font text-xs">
+                                <li><strong>Wet Zone:</strong> கொழும்பு, காலி, இரத்தினபுரி, மலைநாட்டின் மேற்கு (2500-5000 மி.மீ).</li>
+                                <li><strong>Dry Zone:</strong> யாழ்ப்பாணம், மன்னார், அனுராதபுரம் (< 1000 மி.மீ).</li>
+                            </ul>
+                        </div>
                     </div>
+                    <img src="n2.jpeg" class="card-img" alt="Heavy Monsoon Rain">
                 </div>
             </div>
-            <div class="img-area">
-                <img src="image7.jpg" class="section-img" alt="Lush Green Sri Lanka">
-            </div>
-        </div>
 
-        <!-- 4. General Distribution -->
-        <div class="glass-section content-grid order-swap fly-in delay-400 border-r-4 border-indigo-500">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-indigo-900 mb-3 tamil-font">4. மழைவீழ்ச்சிப் பரம்பல்</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Regional Distribution</p>
-                <ul class="rain-list tamil-font">
-                    <li><strong class="text-slate-700">அதிக மழை:</strong> தென்மேற்குப் பகுதிகள்.</li>
-                    <li><strong class="text-slate-700">நடுத்தர மழை:</strong> மத்திய மலைநாட்டுப் பகுதிகள் (கண்டி, நுவரெலியா).</li>
-                    <li><strong class="text-slate-700">குறைந்த மழை:</strong> வடக்கு மற்றும் கிழக்கு மாகாணங்கள்.</li>
-                </ul>
-            </div>
-            <div class="img-area">
-                <img src="image8.jpg" class="section-img" alt="Sri Lanka Hill Country">
-            </div>
-        </div>
-
-        <!-- 5. Second Inter-Monsoon -->
-        <div class="glass-section content-grid fly-in delay-500 border-l-4 border-purple-500">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-purple-800 mb-3 tamil-font">5. இரண்டாவது இடை மொன்குன்</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">அக்டோபர் – நவம்பர் (Oct - Nov)</p>
-                <ul class="rain-list tamil-font">
-                    <li>வங்காள விரிகுடா மற்றும் தாழ் அழுத்த மண்டலங்கள் மூலம் மழை கிடைக்கிறது.</li>
-                    <li>நாட்டை நோக்கி சமமான மழைவீழ்ச்சி கிடைக்கிறது.</li>
-                    <li>முழு நாடும் பாதிப்பு: தென்மேற்கு, மத்திய, வடக்கு, கிழக்கு.</li>
-                </ul>
-            </div>
-            <div class="img-area">
-                <img src="image9.jpg" class="section-img" alt="Rain Storm">
-            </div>
-        </div>
-
-        <!-- 6. Natural Hazards -->
-        <div class="glass-section content-grid order-swap fly-in delay-600 border-r-4 border-red-500">
-            <div class="text-area">
-                <h2 class="text-2xl font-bold text-red-800 mb-3 tamil-font">6. இயற்கை அபாயங்கள்</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Impact & Hazards</p>
-                <ul class="rain-list tamil-font">
-                    <li>தீவிர மழை காரணமாக வெள்ளப்பெருக்கு (Flash Floods) ஏற்படலாம்.</li>
-                    <li>மலைநாட்டின் பகுதிகளில் மண்சரிவுகள் (Landslides) ஏற்பட வாய்ப்புள்ளது.</li>
-                </ul>
-            </div>
-            <div class="img-area">
-                <img src="image10.jpg" class="section-img" alt="Flood Water">
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <footer class="mt-12 text-center pt-6 border-t border-slate-300 fly-in delay-600">
-            <div class="flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
-                <div class="flex flex-col items-center md:items-start mb-4 md:mb-0">
-                    <span class="uppercase tracking-widest text-xs font-bold mb-1">Department</span>
-                    <span class="font-bold text-slate-700">Department of Geography</span>
-                </div>
-                
-                <div class="text-2xl text-sky-300 opacity-30">
-                    <i class="fas fa-cloud-showers-heavy"></i>
-                </div>
-
-                <div class="flex flex-col items-center md:items-end">
-                    <span class="uppercase tracking-widest text-xs font-bold mb-1">University</span>
-                    <span class="font-bold text-slate-700">University of Jaffna</span>
+            <!-- 3. Second Inter-Monsoon -->
+            <div class="data-card purple">
+                <div class="card-content-grid">
+                    <div>
+                        <h3 class="text-lg font-bold text-purple-900 mb-2 tamil-font">3. இரண்டாவது இடை மொன்சூன் (அக்டோபர் – நவம்பர்)</h3>
+                        <div class="mb-3">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">உருவாக்கம் (Formation):</h4>
+                            <p class="text-sm text-slate-700 tamil-font leading-relaxed">வங்காள விரிகுடா, இந்தியப் பெருங்கடல் → தாழ் அழுத்த மண்டலங்கள் (Depressions) → நாட்டை நோக்கி ஈரமான மழை.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">பாதிப்பு & அபாயங்கள்:</h4>
+                            <ul class="rain-list tamil-font text-xs">
+                                <li><strong>பாதிப்பு:</strong> முழு நாடும் (தென்மேற்கு, மத்திய, வடக்கு, கிழக்கு).</li>
+                                <li><strong>அபாயங்கள்:</strong> Flash Floods (வெள்ளப்பெருக்கு), Landslides (மண்சரிவு).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <img src="n4.jpeg" class="card-img" alt="Stormy Weather">
                 </div>
             </div>
-        </footer>
+
+            <!-- 4. Northeast Monsoon -->
+            <div class="data-card indigo">
+                <div class="card-content-grid">
+                    <div>
+                        <h3 class="text-lg font-bold text-indigo-900 mb-2 tamil-font">4. வடகிழக்கு மொன்சூன் (Northeast)</h3>
+                        <div class="mb-3">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">உருவாக்கம் (Formation):</h4>
+                            <p class="text-sm text-slate-700 tamil-font leading-relaxed">தென் அரைக்கோளத்திலிருந்து காற்று → இந்தியப் பெருங்கடல் → ஈரப்பதம் உறிஞ்சி மலைக்கு மோதுகிறது → கனமழை.</p>
+                            <p class="text-xs text-slate-500 mt-1 tamil-font">மலைகளை தாண்டும் போது கிழக்கு வறண்ட பகுதிகளில் மழை குறையும்.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">பாதிக்கப்படும் பகுதிகள்:</h4>
+                            <ul class="rain-list tamil-font text-xs">
+                                <li><strong>Wet Zone:</strong> கொழும்பு, காலி, மாத்தறை, கேகாலை (2500-5000 மி.மீ).</li>
+                                <li><strong>Dry Zone:</strong> யாழ்ப்பாணம், மன்னார், அனுராதபுரம் (< 1000 மி.மீ).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <img src="n5.jpeg" class="card-img" alt="Monsoon Clouds">
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>Dept. of Geography</span>
+                <span>University of Jaffna</span>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: VISUAL PANEL -->
+        <div class="visual-panel">
+            <!-- Main Image -->
+            <img src="n6.jpeg" 
+                 alt="Sri Lanka Rain" 
+                 class="side-image">
+            
+            <!-- Overlay Text -->
+            <div class="visual-content">
+                <h1 class="text-4xl md:text-6xl font-bold text-white serif-font drop-shadow-lg mb-2">4 Seasons</h1>
+                <p class="text-white/90 font-mono text-sm bg-black/20 inline-block px-4 py-2 rounded-full backdrop-blur-md border border-white/20">Annual Rainfall Pattern</p>
+            </div>
+        </div>
 
     </div>
 
