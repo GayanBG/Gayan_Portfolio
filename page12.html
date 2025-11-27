@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References and Bibliography - Group 05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Academic/Neutral Gradient */
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+        .serif-font { font-family: 'Playfair Display', serif; }
+
+        /* LAYOUT */
+        .split-layout {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            flex-direction: row;
+        }
+
+        /* --- LEFT PANEL (Content) --- */
+        .content-panel {
+            flex: 0 0 60%; /* Wider column for long references */
+            max-width: 60%;
+            overflow-y: auto;
+            padding: 2rem 3rem;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #94a3b8 transparent;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- RIGHT PANEL (Visual) --- */
+        .visual-panel {
+            flex: 0 0 40%;
+            max-width: 40%;
+            height: 100%;
+            position: relative;
+            /* Teal/Academic Fallback */
+            background: linear-gradient(to bottom right, #0d9488, #374151);
+            border-left: 1px solid rgba(255,255,255,0.5);
+            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .side-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.2;
+            transition: transform 10s ease;
+        }
+        .visual-panel:hover .side-image {
+            transform: scale(1.05);
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        /* Reference List Styling */
+        .reference-list {
+            list-style: none;
+            padding: 0;
+        }
+        .reference-list li {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            text-indent: -20px; /* Hanging indent style */
+            font-size: 0.9rem;
+            color: #334155;
+            line-height: 1.8;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .reference-list li:hover {
+            background-color: #f1f5f9;
+            border-left-color: #0d9488;
+            padding-left: 25px;
+            text-indent: -25px;
+        }
+        
+        .reference-list strong { font-weight: 600; color: #1e293b; }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50;
+            background: white; padding: 0.6rem 1.2rem; border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); font-weight: 600; color: #334155;
+            display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-btn:hover { transform: translateX(5px); color: #0d9488; }
+
+        @media (max-width: 1024px) {
+            .split-layout { flex-direction: column-reverse; overflow-y: auto; }
+            .visual-panel { flex: 0 0 300px; width: 100%; border-left: none; border-bottom: 4px solid white; }
+            .content-panel { flex: 1; width: 100%; height: auto; overflow-y: visible; padding: 1.5rem; }
+            .back-btn { top: 1rem; right: 1rem; }
+            body { overflow: auto; height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="Pre.html" class="back-btn">
+        Home <i class="fas fa-arrow-right"></i>
+    </a>
+
+    <div class="split-layout">
+        
+        <!-- LEFT: CONTENT PANEL -->
+        <div class="content-panel">
+            
+            <header class="mb-8">
+                <div class="inline-block px-3 py-1 bg-gray-100 text-gray-800 text-xs font-bold rounded tech-font mb-2">GROUP 05</div>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 serif-font">References & Bibliography</h2>
+                <p class="text-sm text-slate-500 mt-1 uppercase tracking-wider font-bold">Sources for Research</p>
+            </header>
+
+            <ul class="reference-list">
+                <li>
+                    Department of Meteorology, Sri Lanka. (2020). <strong>Temperature Humidity Index Map of Sri Lanka.</strong>
+                </li>
+                <li>
+                    Eriyagama, N., Smakhtin, V., & Chandrapala, L. (2010). <strong>Impacts of climate change on water resources and agriculture in Sri Lanka: A review and preliminary vulnerability mapping.</strong> International Water Management Institute (IWMI).
+                </li>
+                <li>
+                    Marambe, B., Punyawardena, R., Silva, P., Premalal, S., Rathnabharathie, V., Kekulandala, B., Nidumolu, U., & Howden, M. (2015). <strong>Climate, climate risk, and food security in Sri Lanka: The need for strengthening adaptation strategies.</strong> In W. Leal Filho (Ed.), <em>Handbook of Climate Change Adaptation</em> (pp. 1759–1783). Springer-Verlag Berlin Heidelberg. https://doi.org/10.1007/978-3-642-38670-1_120
+                </li>
+                <li>
+                    Punyawardena, B. V. R. (2002). <strong>Climatological classification of Sri Lanka.</strong> Department of Agriculture, Sri Lanka.
+                </li>
+                <li>
+                    Wijesekera, N. T. S., & Perera, B. J. C. (2001). <strong>Analysis of rainfall trends in Sri Lanka.</strong> <em>Journal of the National Science Foundation of Sri Lanka, 29</em>(3–4), 101–112.
+                </li>
+            </ul>
+
+            <!-- Footer -->
+            <div class="pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>Dept. of Geography</span>
+                <span>University of Jaffna</span>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: VISUAL PANEL -->
+        <div class="visual-panel">
+            <!-- Main Image (Scholarly/Academic feel) -->
+            <img src="https://images.unsplash.com/photo-1516259771618-f02722b5120a?q=80&w=1000&auto=format&fit=crop" 
+                 alt="Library book stack with paper texture overlay" 
+                 class="side-image">
+            
+            <!-- Overlay Text -->
+            <div class="visual-content">
+                <h1 class="text-4xl md:text-6xl font-bold serif-font drop-shadow-lg mb-2">Sources</h1>
+                <p class="font-mono text-sm bg-black/30 inline-block px-4 py-2 rounded-full backdrop-blur-md border border-white/20">Academic & Meteorological Data</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
